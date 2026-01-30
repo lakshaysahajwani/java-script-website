@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Lakshay Sahajwani Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #ffffff; --text-main: #1a1a1a; --text-muted: #666666;
+            --accent: #FF6B35; --border: #eeeeee; --card-bg: #e2e2e2;
+            --glow-color: rgba(255, 107, 53, 0.4); --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #1c1c22; --text-main: #ffffff; --text-muted: #a8a8a8;
+            --accent: #FF6B35; --border: #2d2d39; --card-bg: #27272c;
+            --glow-color: rgba(255, 107, 53, 0.6); --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.3s ease; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 8%; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: var(--bg); z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-center { display: flex; gap: 2rem; }
+        .nav-center a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 0.95rem; position: relative; transition: 0.3s; }
+        .nav-center a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
+        .nav-center a:hover::after { width: 100%; }
+
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+        .social-icons { display: flex; gap: 1.2rem; border-right: 1px solid var(--border); padding-right: 1.5rem; }
+        .social-icons a { color: var(--text-main); font-size: 1.1rem; transition: 0.3s; }
+        .social-icons a:hover { color: var(--accent); transform: translateY(-3px); }
+
+        /* --- EXPANDABLE LOGO --- */
+        .logo {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            overflow: visible;
+            min-width: 35px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 5px 12px;
+            border-radius: 25px;
+        }
+
+        .logo-text {
+            display: inline;
+            transition: all 0.4s ease;
+        }
+
+        .logo:hover {
+            background: rgba(255, 107, 53, 0.1);
+            padding: 5px 16px;
+        }
+
+        .logo-text-full {
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-text-short {
+            display: inline;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo:hover .logo-text-short {
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .logo:hover .logo-text-full {
+            display: inline;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- SEARCH --- */
+        .search-container { display: flex; align-items: center; }
+        #search-input { width: 0; opacity: 0; border: none; border-bottom: 2px solid var(--accent); background: transparent; color: var(--text-main); transition: 0.4s; padding: 5px 0; }
+        #search-input.active { width: 150px; opacity: 1; padding: 5px 10px; }
+        #search-input::placeholder { color: var(--text-muted); }
+
+        /* --- ABOUT CONTENT --- */
+        .container { padding: 5rem 8%; max-width: 1200px; margin: 0 auto; }
+        .label { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; display: block; font-weight: 600; }
+        
+        .about-header { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .about-header h1 { 
+            font-size: clamp(2.5rem, 5vw, 3.5rem); line-height: 1.1; font-weight: 700;
+            background: linear-gradient(135deg, var(--text-main), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-glow { 
+            position: relative; width: 100%; max-width: 400px;
+            animation: slideInRight 0.8s ease-out 0.2s both;
+        }
+        .profile-glow img { 
+            width: 100%; border-radius: 30px; position: relative; z-index: 2; 
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.4s;
+        }
+        
+        .profile-glow img:hover {
+            transform: translateY(-10px);
+        }
+        
+        .profile-glow::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%; height: 90%;
+            border-radius: 30px;
+            background: var(--accent); filter: blur(50px);
+            opacity: 0.5; z-index: 1;
+            animation: pulse-glow 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { 
+                box-shadow: 0 0 30px var(--glow-color);
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            100% { 
+                box-shadow: 0 0 80px var(--glow-color);
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        /* --- STATS --- */
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin: 4rem 0;
+        }
+        .stat-item { 
+            text-align: center; padding: 2rem; background: var(--card-bg); 
+            border-radius: 20px; border: 1px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out both;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-item:nth-child(1) { animation-delay: 0.3s; }
+        .stat-item:nth-child(2) { animation-delay: 0.4s; }
+        .stat-item:nth-child(3) { animation-delay: 0.5s; }
+        
+        .stat-item:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.15);
+            border-color: var(--accent);
+        }
+        
+        .stat-item h2 { 
+            font-size: 2.5rem; color: var(--accent); font-family: 'JetBrains Mono';
+            transition: transform 0.3s;
+        }
+        
+        .stat-item:hover h2 { transform: scale(1.1); }
+
+        /* --- MODAL --- */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); 
+            display: none; justify-content: center; align-items: center; z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content { 
+            background: var(--bg); padding: 40px; border-radius: 24px; 
+            text-align: center; border: 1px solid var(--border);
+            animation: scaleUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Button styles */
+        button { 
+            background: var(--accent); color: #1c1c22; border: none; 
+            padding: 6px 12px; border-radius: 20px; cursor: pointer; 
+            font-weight: 600; font-size: 0.65rem;
+            transition: all 0.3s;
+        }
+        
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Skill Items Hover */
+        .skill-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.15);
+            border-color: var(--accent);
+        }
+
+        /* Skill Cards Hover */
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.15);
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .skill-card:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Button hover effects */
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3) !important;
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        @media (max-width: 992px) { 
+            .about-header { grid-template-columns: 1fr; text-align: center; }
+            .profile-glow { margin: 0 auto; animation: fadeInUp 0.8s ease-out; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+        }
+
+        /* Footer */
+        footer { background: var(--card-bg); border-top: 1px solid var(--border); padding: 2rem 8%; text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 3rem; }
+        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+        .footer-icons { display: flex; gap: 1rem; justify-content: center; }
+        .footer-icons a { color: var(--text-main); font-size: 1.2rem; text-decoration: none; }
+        .footer-icons a:hover { color: var(--accent); }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <nav>
+        <div class="logo" style="font-weight: 700; font-size: 1.5rem; background: linear-gradient(135deg, var(--text-main), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <span class="logo-text-short">LS<span style="color:var(--accent);">.</span></span>
+            <span class="logo-text-full">Lakshay<span style="color:var(--accent);">.</span></span>
+        </div>
+        <div class="nav-center">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About</a>
+            <a href="work.html">Work</a>
+            <a href="contactus.html">Contact</a>
+        </div>
+        <div class="nav-right">
+            <div class="social-icons">
+               <a href="https://www.gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>
+               <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/lakshaysahajwani" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search...">
+                <span id="search-btn" style="cursor:pointer; font-size: 1.1rem;">🔍</span>
+            </div>
+            <button id="theme-toggle">LIGHT</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- HERO SECTION -->
+        <header class="about-header">
+            <div>
+                <span class="label">// BCA 2nd Year Student</span>
+                <h1>Aspiring Developer & <span style="color:var(--accent)">Tech Enthusiast</span></h1>
+                <p style="margin-top: 2rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">I'm a BCA student passionate about web development and programming. Currently learning full-stack technologies and building projects to strengthen my skills in frontend and backend development.</p>
+                <div style="margin-top: 2.5rem; display: flex; gap: 1rem;">
+                    <a href="resume.html" style="background: var(--accent); color: #1c1c22; border: none; padding: 12px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(255, 107, 53, 0.3)'" onmouseout="this.style.transform='none'; this.style.boxShadow='none'">View Resume</a>
+                    <a href="contactus.html" style="background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 10px 28px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(255, 107, 53, 0.2)'; this.style.background='rgba(255, 107, 53, 0.1)'" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.background='transparent'">Get In Touch</a>
+                </div>
+            </div>
+            <div class="profile-glow">
+                <img src="download (3).jpg" alt="Lakshay Sahajwani Profile" style="object-fit: cover;">
+            </div>
+        </header>
+
+        <!-- STATS SECTION -->
+        <div class="stats-grid" style="margin: 5rem 0;">
+            <div class="stat-item">
+                <h2 class="counter" data-target="2">0</h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Years in BCA</p>
+            </div>
+            <div class="stat-item">
+                <h2 class="counter" data-target="6">0</h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Projects Built</p>
+            </div>
+            <div class="stat-item">
+                <h2 class="counter" data-target="8">0</h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Subjects Learned</p>
+            </div>
+        </div>
+
+        <!-- ABOUT DETAILS SECTION -->
+        <section style="margin: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+            <div style="animation: slideInLeft 0.8s ease-out;">
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">Who I Am</h2>
+                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">I'm Lakshay Sahajwani, a 2nd year BCA student with a passion for technology and problem-solving. I'm currently exploring the depths of web development, database management, and core programming concepts.</p>
+                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem;">My journey started with curiosity about how applications work, which led me to dive into HTML, CSS, JavaScript, Java, and MySQL. I enjoy building projects from scratch and learning new technologies through hands-on experience.</p>
+                <p style="color: var(--text-muted); line-height: 1.8;">When I'm not studying or coding, you'll find me solving coding challenges, reading tech blogs, or helping fellow students understand complex programming concepts.</p>
+            </div>
+            <div style="animation: slideInRight 0.8s ease-out 0.2s both;">
+                <h2 style="font-size: 2.2rem; margin-bottom: 2rem;">My Learning Approach</h2>
+                <div class="skill-item" style="margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s; cursor: pointer;">
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-weight: 700;">Hands-On Practice</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Building real projects to learn concepts and gain practical experience in web development.</p>
+                </div>
+                <div class="skill-item" style="margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s; cursor: pointer;">
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-weight: 700;">Problem Solving</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Breaking down complex problems and writing efficient, readable code to solve them.</p>
+                </div>
+                <div class="skill-item" style="margin-bottom: 2rem; padding: 1.5rem; background: var(--card-bg); border-radius: 15px; border-left: 4px solid var(--accent); transition: all 0.3s; cursor: pointer;">
+                    <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-weight: 700;">Continuous Growth</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Always learning new technologies, frameworks, and best practices in the field.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section style="margin: 6rem 0; animation: fadeInUp 0.8s ease-out 0.3s both;">
+            <h2 style="font-size: 2.2rem; margin-bottom: 3rem; text-align: center;">Technical Skills</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                <div class="skill-card" style="padding: 2rem; background: var(--card-bg); border-radius: 15px; border: 1px solid var(--border); text-align: center; transition: all 0.3s; cursor: pointer; animation: fadeInUp 0.6s ease-out 0.4s both;">
+                    <i class="fas fa-code" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; display: block;"></i>
+                    <h3 style="margin-bottom: 1rem; font-weight: 700;">Frontend</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">HTML, CSS, JavaScript, Responsive Web Design, DOM Manipulation</p>
+                </div>
+                <div class="skill-card" style="padding: 2rem; background: var(--card-bg); border-radius: 15px; border: 1px solid var(--border); text-align: center; transition: all 0.3s; cursor: pointer; animation: fadeInUp 0.6s ease-out 0.5s both;">
+                    <i class="fas fa-database" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; display: block;"></i>
+                    <h3 style="margin-bottom: 1rem; font-weight: 700;">Backend & Databases</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Java, C++, MySQL, Database Design, Query Optimization</p>
+                </div>
+                <div class="skill-card" style="padding: 2rem; background: var(--card-bg); border-radius: 15px; border: 1px solid var(--border); text-align: center; transition: all 0.3s; cursor: pointer; animation: fadeInUp 0.6s ease-out 0.6s both;">
+                    <i class="fas fa-cube" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; display: block;"></i>
+                    <h3 style="margin-bottom: 1rem; font-weight: 700;">Programming Languages</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Java, C, C++, JavaScript, Object-Oriented Programming</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section style="margin: 6rem 0; padding: 3rem; background: linear-gradient(135deg, rgba(255,107,53,0.1) 0%, transparent 100%); border-radius: 20px; border: 1px solid var(--border); text-align: center; animation: fadeInUp 0.8s ease-out 0.5s both;">
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Let's Collaborate</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">I'm always excited to work on interesting projects and collaborate with other students and professionals. Whether it's a study group, hackathon, or freelance project, feel free to reach out!</p>
+            <button style="background: var(--accent); color: #1c1c22; border: none; padding: 14px 40px; border-radius: 25px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s;"><a href="contactus.html" style="text-decoration: none;color: black;">Connect With Me</a></button>
+        </section>
+    </main>
+
+    <!-- <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <h3>Connect</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourlink.com" style="margin:20px 0; background:white; padding:10px; border-radius:10px;">
+            <p id="qr-close" style="cursor:pointer; text-decoration: underline;">Close</p>
+        </div>
+    </div> -->
+
+    <script>
+        // ===== SEARCH FUNCTIONALITY =====
+        const searchBtn = document.getElementById('search-btn');
+        const searchInput = document.getElementById('search-input');
+        searchBtn.onclick = () => { 
+            searchInput.classList.toggle('active'); 
+            if(searchInput.classList.contains('active')) searchInput.focus(); 
+        };
+
+        // ===== THEME TOGGLE =====
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.onclick = () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeBtn.innerText = isDark ? 'DARK' : 'LIGHT';
+        };
+
+        // ===== KEYBOARD SHORTCUTS =====
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 's' && !searchInput.classList.contains('active')) {
+                searchInput.classList.add('active');
+                searchInput.focus();
+            }
+            if (e.key === 't') {
+                themeBtn.click();
+            }
+            if (e.key === 'Escape' && searchInput.classList.contains('active')) {
+                searchInput.classList.remove('active');
+            }
+        });
+
+        // ===== COUNTER ANIMATION ON SCROLL =====
+        let hasAnimated = false;
+        window.addEventListener('scroll', () => {
+            if (!hasAnimated && window.scrollY > 300) {
+                hasAnimated = true;
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const increment = target / 30;
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target + '+';
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current) + '+';
+                        }
+                    }, 30);
+                });
+            }
+        });
+
+        // ===== MODAL =====
+        const modal = document.getElementById('modal');
+        if (modal && document.getElementById('qr-open')) {
+            document.getElementById('qr-open').onclick = () => modal.classList.add('active');
+            document.getElementById('qr-close').onclick = () => modal.classList.remove('active');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        }
+
+        console.log('🎨 About page loaded with interactive features!');
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-icons">
+                <a href="https://www.facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/lakshaysahajwani" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a                           <a href="https://www.dezyneecole.com/" target="_blank" title="Twitter">@Decole</a>
+
+            </div>
+            <p>&copy; 2026 Lakshay Sahajwani. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
